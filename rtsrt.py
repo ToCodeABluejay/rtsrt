@@ -46,8 +46,9 @@ for i in range(len(srtl)) :
 for i in dl :
 	del srtl[i]
 
-srtf = open(srt, "w")
-srtf.write(''.join(str(x) for x in srtl))
+with open(srt, "w") as file:
+	file.write(''.join(str(x) for x in srtl))
+	file.close()
 
 print("Thank you for using rtsrt! Remember to always double-check your subtitles!! ;)")
 
