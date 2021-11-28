@@ -1,10 +1,10 @@
 #!/bin/python
 #Released entirely in the Public Domain!! ;)
-srt = input("Path to SRT file: ")
+from vtt_to_srt.vtt_to_srt import vtt_to_srt
 
-with open(srt, "r") as file:
-	srtl = file.read().split("\n")
-	file.close()
+print("Welcome to rtsrt.py!")
+srt = input("Path to subtitle file: ")
+
 
 def double_lines(val: int, ll: list) -> bool :
 	print("Found two lines of text in a row. The first one says:")
@@ -31,24 +31,49 @@ def del_prompt() -> int :
 		print("Not a valid response")
 		del_prompt()
 
-dl = list()
-for i in range(len(srtl)) :
-	if srtl[i] == "\ufeff1" :
-		pass
-	elif srtl[i] != "" and not srtl[i][0].strip("\n/, ->").isnumeric() :
-		if srtl[i+1] != "":
-			k = double_lines(i, srtl)
-			if k :
-				j = del_prompt()
-				dl.append(i+j)
-			else:
-				pass
-for i in dl :
-	del srtl[i]
+def open_srt(filename: str) -> None:
+	with open(filename, "r") as file:
+		srtl = file.read().split("\n")
+		file.close()
 
-with open(srt, "w") as file:
-	file.write(''.join(str(x) for x in srtl))
-	file.close()
+	dl = list()
+	for i in range(len(srtl)) :
+		if srtl[i] == "\ufeff1" :
+			pass
+		elif srtl[i] != "" and not srtl[i][0].strip("\n/, ->").isnumeric() :
+			if srtl[i+1] != "":
+				k = double_lines(i, srtl)
+				if k :
+					j = del_prompt()
+					dl.append(i+j)
+				else:
+					pass
+
+	for i in dl :
+		del srtl[i]
+
+	with open(filename, "w") as file:
+		file.write(''.join(str(x)+"\n" for x in srtl))
+		file.close()
+		
+def menu() -> int:
+	rv = input("Would you like to:\n (1) Convert VTT to SRT, or\n (2) Check SRT file\n (3) Exit Application\n:")
+	if rv == "1":
+		return 0
+	elif rv == "2":
+		return 1
+	elif rv == "3":
+		return 2
+	else:
+		print("Not a valid option")
+		menu()
+
+resp = menu()
+if resp == 0:
+	vtt_to_srt(srt)
+elif resp == 1:
+	open_srt(srt)
+	
 
 print("Thank you for using rtsrt! Remember to always double-check your subtitles!! ;)")
 
