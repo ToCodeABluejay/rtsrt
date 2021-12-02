@@ -76,14 +76,17 @@ def menu() -> int:
 		print("Not a valid option")
 		menu()
 
-resp = menu()
-if resp == 0:
-	vtt_to_srt(srt)
-elif resp == 1:
-	open_srt(srt)
-elif resp == 2:
-	embed_srt(srt)
-	
+def main():
+	resp = menu()
+	if resp == 0:
+		vtt_to_srt(srt)
+	elif resp == 1:
+		open_srt(srt)
+	elif resp == 2:
+		embed_srt(srt)
+
+if __name__ == "__main__":
+	main()
 
 print("Thank you for using rtsrt! Remember to always double-check your subtitles!! ;)")
 
