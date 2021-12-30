@@ -3,9 +3,6 @@
 from vtt_to_srt.vtt_to_srt import vtt_to_srt
 from subprocess import call,STDOUT
 
-print("Welcome to rtsrt.py!")
-srt = input("Path to subtitle file: ")
-
 
 def double_lines(val: int, ll: list) -> bool :
 	print("Found two lines of text in a row. The first one says:")
@@ -36,7 +33,6 @@ def open_srt(filename: str) -> None:
 	with open(filename, "r") as file:
 		srtl = file.read().split("\n")
 		file.close()
-
 	dl = list()
 	for i in range(len(srtl)) :
 		if srtl[i] == "\ufeff1" :
@@ -77,6 +73,8 @@ def menu() -> int:
 		menu()
 
 def main():
+	print("Welcome to rtsrt.py!")
+	srt = input("Path to subtitle file: ")
 	resp = menu()
 	if resp == 0:
 		vtt_to_srt(srt)
@@ -84,11 +82,10 @@ def main():
 		open_srt(srt)
 	elif resp == 2:
 		embed_srt(srt)
+	print("Thank you for using rtsrt! Remember to always double-check your subtitles!! ;)")
 
 if __name__ == "__main__":
 	main()
-
-print("Thank you for using rtsrt! Remember to always double-check your subtitles!! ;)")
 
 
 
